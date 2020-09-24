@@ -61,7 +61,11 @@ app.post('/web',(req,res)=>{
         number = req.body.queryResult.parameters['number']
         status = "Ordered"
         
-        mysqlConnection.query("insert into orderdetails(Order_Id,Cust_Name,Item_Name,Quantity,Order_Status, mob_no, toppings, address) values(?,?,?,?,?,?,?,?)", [v,name, pizname, quantity,status, number, topping, address])
+        mysqlConnection.query("insert into orderdetails(Order_Id,Cust_Name,Item_Name,Quantity,Order_Status, mob_no, toppings, address) values(?,?,?,?,?,?,?,?)", [v,name, pizname, quantity,status, number, topping, address],(err)=>{
+            if(err)
+                console.log(err)
+
+        })
         
     }
 
