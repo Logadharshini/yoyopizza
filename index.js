@@ -3,8 +3,7 @@ const express = require('express');
 var app = express();
 const bodyparser = require('body-parser');
 var http = require('http').createServer(app)
-v=1;
-flag =0;
+Math.floor(Math.random() * 100) + 1;
 
 app.use(bodyparser.json());
 
@@ -52,7 +51,7 @@ app.post('/web',(req,res)=>{
        return res.json(responseObj)
     }
 
-    if(req.body.queryResult.action === "ordering" && flag===0){
+    if(req.body.queryResult.action === "ordering"){
         size= req.body.queryResult.parameters['size']
         name = req.body.queryResult.parameters['name']
         quantity = req.body.queryResult.parameters['quantity']
@@ -63,8 +62,7 @@ app.post('/web',(req,res)=>{
         status = "Ordered"
         
         mysqlConnection.query("insert into orderdetails(Order_Id,Cust_Name,Item_Name,Quantity,Order_Status, mob_no, toppings, address) values(?,?,?,?,?,?,?,?)", [v,name, pizname, quantity,status, number, topping, address])
-        flag =1;
-        v++;
+        
     }
 
     if(req.body.queryResult.action === "status"){
