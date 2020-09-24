@@ -3,7 +3,7 @@ const express = require('express');
 var app = express();
 const bodyparser = require('body-parser');
 var http = require('http').createServer(app)
-v = Math.floor(Math.random() * 100) + 1;
+let v
 
 app.use(bodyparser.json());
 
@@ -40,8 +40,9 @@ app.get('/', function(req, res){
 
 
 app.post('/web',(req,res)=>{
-    
+
     if(req.body.queryResult.action === "ordering"){
+        v = Math.floor(Math.random() * 100) + 1;
         size= req.body.queryResult.parameters['size']
         name = req.body.queryResult.parameters['name']
         quantity = req.body.queryResult.parameters['quantity']
