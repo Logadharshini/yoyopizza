@@ -3,7 +3,7 @@ const express = require('express');
 var app = express();
 const bodyparser = require('body-parser');
 var http = require('http').createServer(app)
-Math.floor(Math.random() * 100) + 1;
+v = Math.floor(Math.random() * 100) + 1;
 
 app.use(bodyparser.json());
 
@@ -40,17 +40,7 @@ app.get('/', function(req, res){
 
 
 app.post('/web',(req,res)=>{
-
-    if(flag === 1)
-    {   
-        responseObj={
-            "fulfillmentText": rows[0].Order_Status ,"fulfillmentMessages":[{"text": {
-                       "text": [rows[0].Order_Status] } }],"source":""
-       }
-
-       return res.json(responseObj)
-    }
-
+    
     if(req.body.queryResult.action === "ordering"){
         size= req.body.queryResult.parameters['size']
         name = req.body.queryResult.parameters['name']
@@ -70,7 +60,7 @@ app.post('/web',(req,res)=>{
     }
 
     if(req.body.queryResult.action === "status"){
-        mysqlConnection.query("Select Order_Status from orderdetails where Order_Id=(?)", [v-1],(err,rows)=>{
+        mysqlConnection.query("Select Order_Status from orderdetails where Order_Id=(?)", [v],(err,rows)=>{
             console.log(rows)
             
             if(rows.length > 0)
