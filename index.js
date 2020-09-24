@@ -3,7 +3,7 @@ const express = require('express');
 var app = express();
 const bodyparser = require('body-parser');
 var http = require('http').createServer(app)
-v=Math.floor(Math.random() * 1000) + 1;
+v=1;
 flag =0;
 
 app.use(bodyparser.json());
@@ -23,7 +23,8 @@ mysqlConnection.connect((err)=>{
     console.log('DB connection failed \n Error : '+ JSON.stringify(err,undefined,2));
 });
 
-http.listen(process.env.PORT);
+ http.listen(process.env.PORT);
+
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
@@ -41,6 +42,15 @@ app.get('/', function(req, res){
 
 app.post('/web',(req,res)=>{
 
+    if(flag === 1)
+    {   
+        responseObj={
+            "fulfillmentText": rows[0].Order_Status ,"fulfillmentMessages":[{"text": {
+                       "text": [rows[0].Order_Status] } }],"source":""
+       }
+
+       return res.json(responseObj)
+    }
 
     if(req.body.queryResult.action === "ordering" && flag===0){
         size= req.body.queryResult.parameters['size']
@@ -54,10 +64,11 @@ app.post('/web',(req,res)=>{
         
         mysqlConnection.query("insert into orderdetails(Order_Id,Cust_Name,Item_Name,Quantity,Order_Status, mob_no, toppings, address) values(?,?,?,?,?,?,?,?)", [v,name, pizname, quantity,status, number, topping, address])
         flag =1;
+        v++;
     }
 
     if(req.body.queryResult.action === "status"){
-        mysqlConnection.query("Select Order_Status from orderdetails where Order_Id=(?)", [v],(err,rows)=>{
+        mysqlConnection.query("Select Order_Status from orderdetails where Order_Id=(?)", [v-1],(err,rows)=>{
             console.log(rows)
             
             if(rows.length > 0)
