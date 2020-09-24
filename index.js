@@ -2,7 +2,7 @@ const mysql= require('mysql');
 const express = require('express');
 var app = express();
 const bodyparser = require('body-parser');
-var http = require('http')
+var http = require('http').createServer(app)
 v=Math.floor(Math.random() * 1000) + 1;
 flag =0;
 
