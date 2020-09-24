@@ -29,6 +29,15 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
   });
 
+  app.get('/pizza',(req,res)=>{
+    mysqlConnection.query('SELECT * FROM orderdetails',(err,rows,fields)=>{
+        if(!err)
+         res.json(rows)
+        else
+        console.log(err);
+    });
+});
+
 
 app.post('/web',(req,res)=>{
 
